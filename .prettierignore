@@ -1,0 +1,6 @@
+# Project libraries
+build
+node_modules
+plop-templates
+dist
+cdk.out
