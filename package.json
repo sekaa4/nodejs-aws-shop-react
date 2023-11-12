@@ -2,15 +2,29 @@
   "name": "my-store-app",
   "version": "1.0.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "start": "vite",
     "build": "tsc && vite build",
     "preview": "npm run build && vite preview",
+    "lint": "eslint --ignore-path .gitignore --fix src",
+    "prettier": "prettier src --write",
+    "cdk": "cdk",
+    "synth": "cdk synth",
+    "cdk:bootstrap": "npx cdk bootstrap",
+    "client:deploy": "sls client deploy --no-config-change --no-policy-change --no-cors-change",
+    "client:deploy:nc": "npm run client:deploy -- --no-confirm",
+    "client:build:deploy": "npm run build && npm run client:deploy",
+    "client:build:deploy:nc": "npm run build && npm run client:deploy:nc",
+    "cloudfront:setup": "cdk deploy",
+    "cloudfront:remove": "cdk destroy",
+    "cloudfront:build:deploy": "npm run client:build:deploy && npm run client:invalidateCache",
+    "cloudfront:build:deploy:nc": "npm run client:build:deploy:nc && npm run client:invalidateCache",
+    "cloudfront:update:build:deploy": "npm run cloudfront:setup && npm run cloudfront:build:deploy",
+    "cloudfront:update:build:deploy:nc": "npm run cloudfront:setup && npm run cloudfront:build:deploy:nc",
     "test": "vitest",
     "test:ui": "vitest --ui",
-    "test:coverage": "vitest run --coverage",
-    "lint": "eslint --ignore-path .gitignore --fix src",
-    "prettier": "prettier src --write"
+    "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
     "@emotion/react": "^11.9.3",
@@ -25,7 +39,10 @@
     "react-dom": "^18.2.0",
     "react-query": "^3.39.1",
     "react-router-dom": "^6.3.0",
-    "yup": "^0.32.11"
+    "yup": "^0.32.11",
+    "aws-cdk-lib": "^2.104.0",
+    "constructs": "^10.0.0",
+    "source-map-support": "^0.5.21"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.16.4",
@@ -47,12 +64,19 @@
     "prettier": "2.7.1",
     "typescript": "^4.7.4",
     "vite": "^2.9.13",
-    "vitest": "^0.17.1"
+    "vitest": "^0.17.1",
+    "aws-cdk": "2.104.0",
+    "@types/node": "20.7.1",
+    "ts-node": "^10.9.1"
   },
   "msw": {
     "workerDirectory": "public"
   },
   "engines": {
     "node": ">=14.0.0"
+  },
+  "overrides": {
+    "@types/react": "$@types/react",
+    "react": "$react"
   }
 }
